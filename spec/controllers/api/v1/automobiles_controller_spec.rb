@@ -35,7 +35,7 @@ describe Api::V1::AutomobilesController, type: :controller do
     context "when is not created" do
       before(:each) do
         @invalid_automobile_attributes = { automobile_type: "12345678",
-                            make: "12345678" }
+                            year: "AAAAA" }
         post :create, { automobile: @invalid_automobile_attributes },
                                 format: :json
       end
@@ -45,9 +45,9 @@ describe Api::V1::AutomobilesController, type: :controller do
         expect(automobile_response).to have_key(:errors)
       end
 
-      it "renders the json errors on whye the automobile could not be created" do
+      it "renders the json errors on why the automobile could not be created" do
         automobile_response = json_response
-        expect(automobile_response[:errors][:email]).to include "can't be blank"
+        expect(automobile_response[:errors][:year]).to include "number"
       end
 
       it { is_expected.to respond_with 422 }

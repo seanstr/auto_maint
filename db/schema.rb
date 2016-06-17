@@ -11,21 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160617015255) do
+ActiveRecord::Schema.define(version: 20160617182007) do
 
-  create_table "table_automobiles", force: :cascade do |t|
-    t.string  "automobile_type"
-    t.string  "make"
-    t.string  "model"
-    t.integer "year"
-    t.integer "odometer_reading"
+  create_table "automobiles", force: :cascade do |t|
+    t.string   "automobile_type"
+    t.string   "make"
+    t.string   "model"
+    t.integer  "year"
+    t.integer  "odometer_reading"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "table_maintenance_tasks", force: :cascade do |t|
+  create_table "maintenance_tasks", force: :cascade do |t|
     t.datetime "maintenance_date"
     t.integer  "automobile_id"
     t.string   "name"
     t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  add_index "maintenance_tasks", ["automobile_id"], name: "index_maintenance_tasks_on_automobile_id"
 
 end
