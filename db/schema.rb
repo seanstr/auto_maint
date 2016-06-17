@@ -11,11 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160616230734) do
+ActiveRecord::Schema.define(version: 20160617015255) do
 
   create_table "automobiles", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "table_automobiles", force: :cascade do |t|
+    t.string  "automobile_type"
+    t.string  "make"
+    t.string  "model"
+    t.integer "year"
+    t.integer "odometer_reading"
+  end
+
+  create_table "table_maintenance_tasks", force: :cascade do |t|
+    t.datetime "maintenance_date"
+    t.integer  "automobile_id"
+    t.string   "name"
+    t.string   "description"
   end
 
 end
