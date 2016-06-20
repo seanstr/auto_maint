@@ -2,6 +2,13 @@ describe Api::V1::AutomobilesController, type: :controller do
   before(:each) { request.headers['Accept'] = "application/v1, #{Mime::JSON}" }
   before(:each) { request.headers['Content-Type'] = Mime::JSON.to_s }
 
+  describe "GET #index" do
+    it "show a list of all automobiles" do        
+      get :index
+      expect(response).to be_success
+    end
+  end
+
   describe "GET #show" do
     before(:each) do
       @automobile = FactoryGirl.create :automobile
@@ -17,7 +24,6 @@ describe Api::V1::AutomobilesController, type: :controller do
   end
 
   describe "POST #create" do
-
     context "when is successfully created" do
       before(:each) do
         @automobile_attributes = FactoryGirl.attributes_for :automobile
@@ -34,7 +40,7 @@ describe Api::V1::AutomobilesController, type: :controller do
 
     context "when is not created" do
       before(:each) do
-        @invalid_automobile_attributes = { automobile_type: "12345678",
+        @invalid_automobile_attributes = { fuel_mode: "12345678",
                             year: "AAAAA" }
         post :create, { automobile: @invalid_automobile_attributes },
                                 format: :json
@@ -47,7 +53,7 @@ describe Api::V1::AutomobilesController, type: :controller do
 
       it "renders the json errors on why the automobile could not be created" do
         automobile_response = json_response
-        expect(automobile_response[:errors][:year]).to include "number"
+        expect(automobile_response[:errors]).to include("Invalid")
       end
 
       it { is_expected.to respond_with 422 }
@@ -59,7 +65,7 @@ describe Api::V1::AutomobilesController, type: :controller do
       @automobile = FactoryGirl.create :automobile
     end
 
-    context "when is successfully updated" do
+    context "when successfully updated" do
       before(:each) do
         patch :update, { id: @automobile.id, automobile: { model: "Toyota" } },
                          format: :json
@@ -67,13 +73,13 @@ describe Api::V1::AutomobilesController, type: :controller do
 
       it "renders the json representation for the updated automobile" do
         automobile_response = json_response
-        expect(automobile_response[:email]).to eql "Toyota"
+        expect(automobile_response[:model]).to eql "Toyota"
       end
 
       it { is_expected.to respond_with 200 }
     end
 
-    context "when is not created" do
+    context "when not updated" do
       before(:each) do
         patch :update, { id: @automobile.id, automobile: { year: "AAAAA" } },
                          format: :json
@@ -86,7 +92,7 @@ describe Api::V1::AutomobilesController, type: :controller do
 
       it "renders the json errors on why the automobile could not be created" do
         automobile_response = json_response
-        expect(automobile_response[:errors][:year]).to include "is invalid"
+        expect(automobile_response[:errors][:year][0]).to include "not a number"
       end
 
       it { is_expected.to respond_with 422 }

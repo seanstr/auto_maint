@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :automobile do
-  	id 1000
-    automobile_type "gasoline"
+    fuel_mode "Gasoline"
     make "Mazda"
     model "3"
     year 2015
