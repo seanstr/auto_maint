@@ -4,25 +4,33 @@
 This README documents steps that are necessary to get the application up and running.
 
 * **Ruby version**
+
 2.2
 
 * **Rails version**
+
 4.2.6
 
 * **System dependencies**
+
 Ruby, Ruby on Rails, gem, bundler
 
 * **Configuration**
+
 bundle install
 
 * **Database creation**
+
 bundle exec rake db:create:all
 
 * **Database initialization**
+
 bundle exec rake db:migrate
 
 * **How to run the test suite**
+
 bundle exec rake db:migrate RAILS_ENV=test
+
 bundle exec rspec
 
 
