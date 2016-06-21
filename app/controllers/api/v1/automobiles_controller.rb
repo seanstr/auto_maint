@@ -2,11 +2,19 @@ class Api::V1::AutomobilesController < ApplicationController
   respond_to :json
 
   def index
-    respond_with Automobile.all
+    begin
+      respond_with Automobile.select(:id, :fuel_mode, :make, :model, :year, :odometer_reading).all
+    rescue Exception => e
+      render json: { errors: e.message }, status: 404
+    end
   end 
 
   def show
-    respond_with Automobile.find(params[:id])
+    begin
+      respond_with Automobile.select(:id, :fuel_mode, :make, :model, :year, :odometer_reading).find(params[:id])
+    rescue Exception => e
+      render json: { errors: e.message }, status: 404
+    end
   end
 
   def create
@@ -39,9 +47,13 @@ class Api::V1::AutomobilesController < ApplicationController
   end
 
   def destroy
-    automobile = Automobile.find(params[:id]) 
-    automobile.destroy
-    head 204
+    begin
+      automobile = Automobile.find(params[:id]) 
+      automobile.destroy
+      head 204
+    rescue Exception => e
+      render json: { errors: e.message }, status: 422
+    end
   end
 
   private
