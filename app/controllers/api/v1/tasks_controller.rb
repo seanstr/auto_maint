@@ -7,6 +7,7 @@ class Api::V1::TasksController < ApplicationController
       @automobile = Automobile.find(params[:automobile_id])
       tasks = @automobile.maintenance_tasks
       maint_tasks = MaintenanceTask.where("suitable_for_#{maintenance_task_field}" => true).all
+
       if tasks.empty?
         task_array = maint_tasks.to_a.map(&:serializable_hash)
       else

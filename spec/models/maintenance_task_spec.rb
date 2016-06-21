@@ -5,10 +5,6 @@ RSpec.describe MaintenanceTask, type: :model do
 
   subject { @maintenance_task }
 
-  describe Automobiles 
-    it { is_expected.to belong_to(:maintenance_task) }
-  end
-
   it { is_expected.to respond_to(:name) }
   it { is_expected.to respond_to(:description) }
   it { is_expected.to respond_to(:suitable_for_gasoline) }

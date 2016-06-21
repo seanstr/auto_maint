@@ -1,23 +1,62 @@
+**README**
+----
+
+This README documents steps that are necessary to get the application up and running.
+
+* **Ruby version**
+2.2
+
+* **Rails version**
+4.2.6
+
+* **System dependencies**
+Ruby, Ruby on Rails, gem, bundler
+
+* **Configuration**
+bundle install
+
+* **Database creation**
+bundle exec rake db:create:all
+
+* **Database initialization**
+bundle exec rake db:migrate
+
+* **How to run the test suite**
+bundle exec rake db:migrate RAILS_ENV=test
+bundle exec rspec
+
+
+**How this works**
+
+This is an api-based Ruby on Rails application.  You send RESTful calls to it, and it will respond, generally with a payload of JSON-formatted data.
+
+
+
+
 **API Routes**
 ----
 
-              Prefix Verb   URI Pattern                                         Controller#Action
- api_automobile_tasks GET    /api/automobiles/:automobile_id/tasks(.:format)     api/v1/tasks#index
-                      POST   /api/automobiles/:automobile_id/tasks(.:format)     api/v1/tasks#create
-  api_automobile_task DELETE /api/automobiles/:automobile_id/tasks/:id(.:format) api/v1/tasks#destroy
-      api_automobiles GET    /api/automobiles(.:format)                          api/v1/automobiles#index
-                      POST   /api/automobiles(.:format)                          api/v1/automobiles#create
-       api_automobile GET    /api/automobiles/:id(.:format)                      api/v1/automobiles#show
-                      PATCH  /api/automobiles/:id(.:format)                      api/v1/automobiles#update
-                      PUT    /api/automobiles/:id(.:format)                      api/v1/automobiles#update
-                      DELETE /api/automobiles/:id(.:format)                      api/v1/automobiles#destroy
-api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                    api/v1/maintenance_tasks#index
-                      POST   /api/maintenance_tasks(.:format)                    api/v1/maintenance_tasks#create
- api_maintenance_task GET    /api/maintenance_tasks/:id(.:format)                api/v1/maintenance_tasks#show
-                      PATCH  /api/maintenance_tasks/:id(.:format)                api/v1/maintenance_tasks#update
-                      PUT    /api/maintenance_tasks/:id(.:format)                api/v1/maintenance_tasks#update
-                      DELETE /api/maintenance_tasks/:id(.:format)                api/v1/maintenance_tasks#destroy
+|              Prefix |Verb|   URI Pattern                      | Controller#Action|
+ ----                 |----|   ------------                       | -----------------|
+| api_automobile_tasks|GET | /api/automobiles/:automobile_id/tasks(.:format)  | api/v1/tasks#index|
+|                     |POST | /api/automobiles/:automobile_id/tasks(.:format) |api/v1/tasks#create|
+|  api_automobile_task|DELETE|/api/automobiles/:automobile_id/tasks/:id(.:format) |api/v1/tasks#destroy|
+|      api_automobiles|GET   |/api/automobiles(.:format)            |api/v1/automobiles#index|
+|                     |POST  |/api/automobiles(.:format)            |api/v1/automobiles#create|
+|       api_automobile|GET   |/api/automobiles/:id(.:format)        |api/v1/automobiles#show|
+|                     |PATCH |/api/automobiles/:id(.:format)        |api/v1/automobiles#update|
+|                     |PUT   |/api/automobiles/:id(.:format)        |api/v1/automobiles#update|
+|                     |DELETE|/api/automobiles/:id(.:format)        |api/v1/automobiles#destroy|
+|api_maintenance_tasks|GET   |/api/maintenance_tasks(.:format)      |api/v1/maintenance_tasks#index|
+|                     |POST  |/api/maintenance_tasks(.:format)      |api/v1/maintenance_tasks#create|
+| api_maintenance_task|GET   |/api/maintenance_tasks/:id(.:format)  |api/v1/maintenance_tasks#show|
+|                     |PATCH |/api/maintenance_tasks/:id(.:format)  |api/v1/maintenance_tasks#update|
+|                     |PUT   |/api/maintenance_tasks/:id(.:format)  |api/v1/maintenance_tasks#update|
+|                     |DELETE|/api/maintenance_tasks/:id(.:format)  |api/v1/maintenance_tasks#destroy|
 
+
+**API CALLS**
+----
 
 **List Automobiles**
 ----
@@ -44,34 +83,37 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `[
-    {
+    **Content:**
+
+    ```javascript
+    [
+      {
         "id": 1,
         "make": "Mazda",
         "model": "3",
         "year": 2015,
         "odometer_reading": 90001,
-    },
-    {
+      },
+      {
         "id": 2,
         "make": "Mazda",
         "model": "3",
         "year": 2015,
         "odometer_reading": 90001,
-    },
-    {
+      },
+      {
         "id": 3,
         "make": "Ford",
         "model": "F350",
         "year": 2015,
         "odometer_reading": 80001,
-    }
-]`
+      }
+    ]
+    ```
  
 * **Error Response:**
 
   * **Code:** 404 NOT FOUND <br />
-    **Content:** `{ error : "Automobile doesn't exist" }`
 
   OR
 
@@ -116,13 +158,16 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `{
-    "id": 1,
-    "make": "Mazda",
-    "model": "3",
-    "year": 2015,
-    "odometer_reading": 90001,
-}`
+    **Content:** 
+    ```javascript
+    {
+      "id": 1,
+      "make": "Mazda",
+      "model": "3",
+      "year": 2015,
+      "odometer_reading": 90001,
+    }
+    ```
  
 * **Error Response:**
 
@@ -178,15 +223,19 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `{
-    "id": 4,
-    "make": "Ford",
-    "model": "Escot",
-    "year": 2010,
-    "odometer_reading": 70001,
-    "created_at": "2016-06-21T03:20:23.255Z",
-    "updated_at": "2016-06-21T03:20:23.255Z"
-   }`
+    **Content:** 
+
+    ```javascript
+    {
+      "id": 4,
+      "make": "Ford",
+      "model": "Escot",
+      "year": 2010,
+      "odometer_reading": 70001,
+      "created_at": "2016-06-21T03:20:23.255Z",
+      "updated_at": "2016-06-21T03:20:23.255Z"
+    }
+    ```
  
 * **Error Response:**
 
@@ -241,15 +290,19 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `{
-    "id": 4,
-    "make": "Ford",
-    "model": "Escort",
-    "year": 2010,
-    "odometer_reading": 70001,
-    "created_at": "2016-06-21T03:20:23.255Z",
-    "updated_at": "2016-06-21T03:30:00.675Z"
-}`
+    **Content:** 
+
+    ```javascript
+    {
+      "id": 4,
+      "make": "Ford",
+      "model": "Escort",
+      "year": 2010,
+      "odometer_reading": 70001,
+      "created_at": "2016-06-21T03:20:23.255Z",
+      "updated_at": "2016-06-21T03:30:00.675Z"
+    }
+    ```
  
 * **Error Response:**
 
@@ -350,8 +403,11 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `[
-    {
+    **Content:** 
+
+    ```javascript
+      [
+      {
         "id": 2,
         "maintenance_date": null,
         "automobile_id": null,
@@ -360,8 +416,8 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
         "suitable_for_gasoline": true,
         "suitable_for_diesel": true,
         "suitable_for_electrical": false
-    },
-    {
+      },
+      {
         "id": 3,
         "maintenance_date": null,
         "automobile_id": null,
@@ -370,8 +426,8 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
         "suitable_for_gasoline": false,
         "suitable_for_diesel": true,
         "suitable_for_electrical": false
-    },
-    {
+      },
+      {
         "id": 4,
         "maintenance_date": null,
         "automobile_id": null,
@@ -380,8 +436,8 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
         "suitable_for_gasoline": true,
         "suitable_for_diesel": false,
         "suitable_for_electrical": false
-    },
-    {
+      },
+      {
         "id": 5,
         "maintenance_date": null,
         "automobile_id": null,
@@ -390,8 +446,8 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
         "suitable_for_gasoline": false,
         "suitable_for_diesel": false,
         "suitable_for_electrical": true
-    },
-    {
+      },
+      {
         "id": 6,
         "maintenance_date": null,
         "automobile_id": null,
@@ -400,8 +456,8 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
         "suitable_for_gasoline": true,
         "suitable_for_diesel": true,
         "suitable_for_electrical": true
-    },
-    {
+      },
+      {
         "id": 7,
         "maintenance_date": null,
         "automobile_id": null,
@@ -410,8 +466,9 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
         "suitable_for_gasoline": true,
         "suitable_for_diesel": true,
         "suitable_for_electrical": true
-    }
-]`
+      }
+    ]
+    ```
  
 * **Error Response:**
 
@@ -460,16 +517,20 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `{
-    "id": 2,
-    "maintenance_date": null,
-    "automobile_id": null,
-    "name": "oil change",
-    "description": "oil change",
-    "suitable_for_gasoline": true,
-    "suitable_for_diesel": true,
-    "suitable_for_electrical": false
-}`
+    **Content:** 
+
+    ```javascript
+    {
+      "id": 2,
+      "maintenance_date": null,
+      "automobile_id": null,
+      "name": "oil change",
+      "description": "oil change",
+      "suitable_for_gasoline": true,
+      "suitable_for_diesel": true,
+      "suitable_for_electrical": false
+    }
+    ```
  
 * **Error Response:**
 
@@ -527,18 +588,22 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `{
-    "id": 8,
-    "maintenance_date": null,
-    "automobile_id": null,
-    "name": "rotate tires",
-    "description": "rotate tires",
-    "created_at": "2016-06-21T03:56:20.404Z",
-    "updated_at": "2016-06-21T03:56:20.404Z",
-    "suitable_for_gasoline": true,
-    "suitable_for_diesel": true,
-    "suitable_for_electrical": true
-}`
+    **Content:** 
+
+    ```javascript
+    {
+      "id": 8,
+      "maintenance_date": null,
+      "automobile_id": null,
+      "name": "rotate tires",
+      "description": "rotate tires",
+      "created_at": "2016-06-21T03:56:20.404Z",
+      "updated_at": "2016-06-21T03:56:20.404Z",
+      "suitable_for_gasoline": true,
+      "suitable_for_diesel": true,
+      "suitable_for_electrical": true
+    }
+    ```
  
 * **Error Response:**
 
@@ -593,18 +658,22 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `{
-    "id": 8,
-    "maintenance_date": null,
-    "automobile_id": null,
-    "name": "Rotate Tires",
-    "description": "rotate tires",
-    "created_at": "2016-06-21T03:56:20.404Z",
-    "updated_at": "2016-06-21T03:58:40.631Z",
-    "suitable_for_gasoline": true,
-    "suitable_for_diesel": true,
-    "suitable_for_electrical": true
-}`
+    **Content:** 
+
+    ```javascript
+    {
+      "id": 8,
+      "maintenance_date": null,
+      "automobile_id": null,
+      "name": "Rotate Tires",
+      "description": "rotate tires",
+      "created_at": "2016-06-21T03:56:20.404Z",
+      "updated_at": "2016-06-21T03:58:40.631Z",
+      "suitable_for_gasoline": true,
+      "suitable_for_diesel": true,
+      "suitable_for_electrical": true
+    }
+    ```
  
 * **Error Response:**
 
@@ -705,8 +774,11 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
 * **Success Response:**
 
   * **Code:** 200 <br />
-    **Content:** `{
-    "automobile": {
+    **Content:** 
+
+    ```javascript
+    {
+      "automobile": {
         "id": 1,
         "make": "Mazda",
         "model": "3",
@@ -714,60 +786,61 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
         "odometer_reading": 90001,
         "created_at": "2016-06-17T23:46:21.166Z",
         "updated_at": "2016-06-17T23:46:21.166Z"
-    },
-    "tasks": [
+      },
+      "tasks": [
         {
-            "id": 2,
-            "maintenance_date": null,
-            "automobile_id": null,
-            "name": "oil change",
-            "description": "oil change",
-            "created_at": "2016-06-20T08:43:45.123Z",
-            "updated_at": "2016-06-20T08:43:45.123Z",
-            "suitable_for_gasoline": true,
-            "suitable_for_diesel": true,
-            "suitable_for_electrical": false,
-            "selected": true
+          "id": 2,
+          "maintenance_date": null,
+          "automobile_id": null,
+          "name": "oil change",
+          "description": "oil change",
+          "created_at": "2016-06-20T08:43:45.123Z",
+          "updated_at": "2016-06-20T08:43:45.123Z",
+          "suitable_for_gasoline": true,
+          "suitable_for_diesel": true,
+          "suitable_for_electrical": false,
+          "selected": true
         },
         {
-            "id": 4,
-            "maintenance_date": null,
-            "automobile_id": null,
-            "name": "spark plugs",
-            "description": "maintain spark plugs",
-            "created_at": "2016-06-20T08:45:57.194Z",
-            "updated_at": "2016-06-20T08:45:57.194Z",
-            "suitable_for_gasoline": true,
-            "suitable_for_diesel": false,
-            "suitable_for_electrical": false,
-            "selected": true
+          "id": 4,
+          "maintenance_date": null,
+          "automobile_id": null,
+          "name": "spark plugs",
+          "description": "maintain spark plugs",
+          "created_at": "2016-06-20T08:45:57.194Z",
+          "updated_at": "2016-06-20T08:45:57.194Z",
+          "suitable_for_gasoline": true,
+          "suitable_for_diesel": false,
+          "suitable_for_electrical": false,
+          "selected": true
         },
         {
-            "id": 6,
-            "maintenance_date": null,
-            "automobile_id": null,
-            "name": "windshield repair",
-            "description": "windshield repair",
-            "created_at": "2016-06-20T22:23:49.595Z",
-            "updated_at": "2016-06-20T22:23:49.595Z",
-            "suitable_for_gasoline": true,
-            "suitable_for_diesel": true,
-            "suitable_for_electrical": true
+          "id": 6,
+          "maintenance_date": null,
+          "automobile_id": null,
+          "name": "windshield repair",
+          "description": "windshield repair",
+          "created_at": "2016-06-20T22:23:49.595Z",
+          "updated_at": "2016-06-20T22:23:49.595Z",
+          "suitable_for_gasoline": true,
+          "suitable_for_diesel": true,
+          "suitable_for_electrical": true
         },
         {
-            "id": 7,
-            "maintenance_date": null,
-            "automobile_id": null,
-            "name": "rotate tires",
-            "description": "rotate tires",
-            "created_at": "2016-06-21T03:19:10.419Z",
-            "updated_at": "2016-06-21T03:19:10.419Z",
-            "suitable_for_gasoline": true,
-            "suitable_for_diesel": true,
-            "suitable_for_electrical": true
+          "id": 7,
+          "maintenance_date": null,
+          "automobile_id": null,
+          "name": "rotate tires",
+          "description": "rotate tires",
+          "created_at": "2016-06-21T03:19:10.419Z",
+          "updated_at": "2016-06-21T03:19:10.419Z",
+          "suitable_for_gasoline": true,
+          "suitable_for_diesel": true,
+          "suitable_for_electrical": true
         }
-    ]
-}`
+      ]
+    }
+    ```
  
 * **Error Response:**
 
@@ -821,15 +894,19 @@ api_maintenance_tasks GET    /api/maintenance_tasks(.:format)                   
 * **Success Response:**
 
   * **Code:** 201 <br />
-    **Content:** `{
-    "id": 2,
-    "make": "Mazda",
-    "model": "3",
-    "year": 2015,
-    "odometer_reading": 90001,
-    "created_at": "2016-06-17T23:48:34.269Z",
-    "updated_at": "2016-06-17T23:48:34.269Z"
-}`
+    **Content:** 
+
+    ```javascript
+    {
+      "id": 2,
+      "make": "Mazda",
+      "model": "3",
+      "year": 2015,
+      "odometer_reading": 90001,
+      "created_at": "2016-06-17T23:48:34.269Z",
+      "updated_at": "2016-06-17T23:48:34.269Z"
+    }
+    ```
  
 * **Error Response:**
 

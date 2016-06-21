@@ -1,0 +1,49 @@
+Automobiles
+===========
+
+GET automobiles
+curl -i -X GET -H "Content-Type: application/json" http://localhost:3001/api/automobiles
+
+GET automobiles
+curl -i -X GET -H "Content-Type: application/json" http://localhost:3001/api/automobiles/1
+
+POST automobiles
+curl -i -X POST -H "Content-Type: application/json" -d "{\"automobile\":{\"fuel_mode\":\"Gasoline\",\"make\":\"Ford\",\"model\":\"Escot\",\"year\":\"2010\",\"odometer_reading\": \"70001\"}}" http://localhost:3001/api/automobiles
+
+PUT automobiles
+curl -i -X POST -H "Content-Type: application/json" -d "{\"automobile\":{\"model\":\"Escort\"}}" http://localhost:3001/api/automobiles/4
+
+DELETE automobiles
+curl -i -X DELETE -H "Content-Type: application/json" http://localhost:3001/api/automobiles/2
+
+
+Maintenance Tasks
+=================
+
+GET maintenance_tasks
+curl -i -X GET -H "Content-Type: application/json" http://localhost:3001/api/maintenance_tasks
+
+GET maintenance_tasks
+curl -i -X GET -H "Content-Type: application/json" http://localhost:3001/api/maintenance_tasks/1
+
+POST maintenance_tasks
+curl -i -X POST -H "Content-Type: application/json" -d "{\"maintenance_task\":{\"name\":\"rotate tires\",\"description\":\"rotate tires\",\"suitable_for_gasoline\":\"true\",\"suitable_for_diesel\":\"true\",\"suitable_for_electrical\":\"true\"}}" http://localhost:3001/api/maintenance_tasks
+
+PUT maintenance_tasks
+curl -i -X PUT -H "Content-Type: application/json" -d "{\"maintenance_task\":{\"name":\"Rotate Tires"\}}" http://localhost:3001/api/maintenance_tasks/1
+
+DELETE maintenance_tasks
+curl -i -X DELETE -H "Content-Type: application/json" http://localhost:3001/api/maintenance_tasks/1
+
+
+Tasks
+=====
+
+GET tasks
+curl -i -X GET -H "Content-Type: application/json" http://localhost:3001/api/automobiles/1/tasks
+
+POST tasks
+curl -i -X POST -H "Content-Type: application/json" -d "{\"maintenance_tasks\":[{\"maintenance_task_id\":\"1\"},{\"maintenance_task_id\":\"2\"},{\"maintenance_task_id\":\"4\"}]}" http://localhost:3001/api/automobiles/1/tasks
+
+DELETE tasks
+curl -i -X DELETE -H "Content-Type: application/json" http://localhost:3001/api/automobiles/4/tasks
