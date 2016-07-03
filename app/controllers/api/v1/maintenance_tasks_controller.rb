@@ -3,7 +3,7 @@ class Api::V1::MaintenanceTasksController < ApplicationController
 
   def index
     begin
-    respond_with MaintenanceTask.select(:id, :maintenance_date, :automobile_id, :name, :description, 
+    respond_with MaintenanceTask.select(:id, :name, :description, 
           :suitable_for_gasoline, :suitable_for_diesel, :suitable_for_electrical).all
     rescue Exception => e
       render json: { errors: e.message }, status: 404
@@ -12,7 +12,7 @@ class Api::V1::MaintenanceTasksController < ApplicationController
 
   def show
     begin
-    respond_with MaintenanceTask.select(:id, :maintenance_date, :automobile_id, :name, :description, 
+    respond_with MaintenanceTask.select(:id, :name, :description, 
           :suitable_for_gasoline, :suitable_for_diesel, :suitable_for_electrical).find(params[:id])
     rescue Exception => e
       render json: { errors: e.message }, status: 404
@@ -21,10 +21,16 @@ class Api::V1::MaintenanceTasksController < ApplicationController
 
   def create
     begin
+      # initialize checkbox params to false.  This creates them for the permit, and they might not be in the params hash because the
+      # browser does not include them if they're not checked.
+      params["maintenance_task"]["suitable_for_gasoline"] ||= false
+      params["maintenance_task"]["suitable_for_diesel"] ||= false
+      params["maintenance_task"]["suitable_for_electrical"] ||= false
+
       maintenance_task = MaintenanceTask.new(maintenance_task_params)
 
       if maintenance_task.save
-        render json: maintenance_task, status: 201, location: [:api, maintenance_task] 
+        render json: maintenance_task, status: 201
       else
         render json: { errors: maintenance_task.errors }, status: 422
       end
@@ -38,7 +44,7 @@ class Api::V1::MaintenanceTasksController < ApplicationController
       maintenance_task = MaintenanceTask.find(params[:id]) 
 
       if maintenance_task.update(maintenance_task_params)
-        render json: maintenance_task, status: 200, location: [:api, maintenance_task] 
+        render json: maintenance_task, status: 200
       else
         render json: { errors: maintenance_task.errors }, status: 422
       end

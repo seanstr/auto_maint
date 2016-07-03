@@ -31,8 +31,7 @@ describe Api::V1::MaintenanceTasksController, type: :controller do
       end
 
       it "renders the json representation for the maintenance task record just created" do
-        maintenance_task_response = json_response
-        expect(maintenance_task_response[:name]).to eql @maintenance_task_attributes[:name]
+        expect(json_response[:name]).to eql @maintenance_task_attributes[:name]
       end
 
       it { is_expected.to respond_with 201 }
@@ -40,19 +39,16 @@ describe Api::V1::MaintenanceTasksController, type: :controller do
 
     context "when not created" do
       before(:each) do
-        @invalid_maintenance_task_attributes = { suitable_for_gasoline: "AAAAA" }
-        post :create, { maintenance_task: @invalid_maintenance_task_attributes },
-                                format: :json
+        @invalid_maintenance_task_attributes = FactoryGirl.attributes_for :invalid_maintenance_task
+        post :create, { maintenance_task: @invalid_maintenance_task_attributes }, format: :json
       end
 
       it "renders an errors json" do
-        maintenance_task_response = json_response
-        expect(maintenance_task_response).to have_key(:errors)
+        expect(json_response).to have_key(:errors)
       end
 
       it "renders the json errors on why the maintenance task could not be created" do
-        maintenance_task_response = json_response
-        expect(maintenance_task_response[:errors][:suitable_for_diesel]).to include("is not included in the list")
+        expect(json_response[:errors][:name]).to include("can't be blank")
       end
 
       it { is_expected.to respond_with 422 }
@@ -66,8 +62,7 @@ describe Api::V1::MaintenanceTasksController, type: :controller do
 
     context "when successfully updated" do
       before(:each) do
-        patch :update, { id: @maintenance_task.id, maintenance_task: { name: "glow plugs" } },
-                         format: :json
+        patch :update, format: :json, id: @maintenance_task.id, maintenance_task: { name: "glow plugs" }
       end
 
       it "renders the json representation for the updated maintenance task" do
@@ -82,7 +77,7 @@ describe Api::V1::MaintenanceTasksController, type: :controller do
   describe "DELETE #destroy" do
     before(:each) do
       @maintenance_task = FactoryGirl.create :maintenance_task
-      delete :destroy, { id: @maintenance_task.id }, format: :json
+      delete :destroy, format: :json, id: @maintenance_task.id
     end
 
     it { is_expected.to respond_with 204 }

@@ -1,26 +1,25 @@
 class Api::V1::TasksController < ApplicationController
   respond_to :json
 
-  # return all valid maintenance tasks
+  # return all maintenance tasks that are valid for the fuel_mode, 
+  # adding a "selected=true|false" field so that the UI can offer a full list to the user
   def index
     begin
-      @automobile = Automobile.find(params[:automobile_id])
+      @automobile = auto_table.select(:id, :make, :model, :year, :odometer_reading, :fuel_mode).find(lookup_id)
       tasks = @automobile.maintenance_tasks
-      maint_tasks = MaintenanceTask.where("suitable_for_#{maintenance_task_field}" => true).all
+      maint_tasks = MaintenanceTask.select(:id, :name, :description, 
+            :suitable_for_gasoline, :suitable_for_diesel, :suitable_for_electrical)
+        .where("suitable_for_#{maintenance_task_field}" => true).all
 
-      if tasks.empty?
-        task_array = maint_tasks.to_a.map(&:serializable_hash)
-      else
-        # add "selected" to any tasks already associated with the automobile
-        task_id_array = tasks.pluck(:id)
-        task_array = []
-        maint_tasks.each do |mt|
-          hsh = mt.serializable_hash
-          hsh.merge!({selected: true}) if task_id_array.include?(mt.id)
-          task_array << hsh
-        end
+      task_id_array = tasks.pluck(:id)
+      task_array = []
+      maint_tasks.each do |mt|
+        hsh = mt.serializable_hash
+        hsh.merge!({selected: true}) if task_id_array.include?(mt.id)
+        hsh.merge!({selected: false}) unless task_id_array.include?(mt.id)
+        task_array << hsh
       end
-      render json: { automobile: @automobile, tasks: task_array }
+      render json: { params[:type].to_s => @automobile, tasks: task_array }
     rescue Exception => e
       render json: { errors: e.message }, status: 422
     end
@@ -30,16 +29,17 @@ class Api::V1::TasksController < ApplicationController
     begin
       #expect a json array consisting of automobile_id, maintenance_task_id
       tasks = params[:maintenance_tasks]
-      automobile = Automobile.find(params[:automobile_id])
+      automobile = auto_table.find(lookup_id)
 
       #add any tasks not yet associated to the automobile
       auto_tasks = automobile.maintenance_tasks
       task_id_array = auto_tasks.pluck(:id)
       tasks.each do |t|
-        automobile.maintenance_tasks << MaintenanceTask.find(t[:maintenance_task_id]) unless task_id_array.include?(t[:maintenance_task_id])
+        automobile.maintenance_tasks << MaintenanceTask.find(t) unless task_id_array.include?(t)
       end
       automobile.save
-      render json: automobile, status: 201, location: api_automobile_url(automobile)
+      render json: automobile, status: 201, location: api_gasoline_tasks_url(lookup_id) #{ controller: :gasoline, action: :show, id: lookup_id } 
+        #api_automobile_url(automobile)
     rescue Exception => e
       render json: { errors: e.message }, status: 422
     end
@@ -47,11 +47,14 @@ class Api::V1::TasksController < ApplicationController
 
   def destroy
     begin
-      automobile = Automobile.find(params[:id]) 
-      automobile.maintenance_tasks.destroy
-      automobile.maintenance_tasks.each { |rec| rec.delete }
+      automobile = auto_table.find(lookup_id) 
+      task = automobile.maintenance_tasks.find(params[:id])
+      automobile.maintenance_tasks.delete(params[:id]) if task
+
       head 204
     rescue Exception => e
+      puts "error"
+      puts e
       render json: { errors: e.message }, status: 422
     end
   end
@@ -60,6 +63,14 @@ class Api::V1::TasksController < ApplicationController
 
   def maintenance_task_field
     @automobile.fuel_mode.downcase
+  end
+
+  def lookup_id
+    auto_id = params[:gasoline_id] || params[:diesel_id] || params[:electrical_id]
+  end
+
+  def auto_table
+    params[:type].to_s.titleize.constantize
   end
 
 end

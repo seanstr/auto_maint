@@ -13,14 +13,6 @@ class Automobile < ActiveRecord::Base
 	scope :diesels, -> { where(fuel_mode: 'Diesel') } 
 	scope :electricals, -> { where(fuel_mode: 'Electrical') }
 
-	def automobiles
-		raise "Abstract method"
-	end
-
-	def valid_maintenance_tasks
-		raise "Abstract method"
-	end
-
 	class << self
 		def fuel_modes
 			%w(Gasoline Diesel Electrical)
